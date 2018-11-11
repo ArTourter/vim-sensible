@@ -1,11 +1,11 @@
 " sensible.vim - Defaults everyone can agree on
 " Maintainer:   Tim Pope <http://tpo.pe/>
-" Version:      1.1
+" Version:      1.2
 
 if exists('g:loaded_sensible') || &compatible
   finish
 else
-  let g:loaded_sensible = 1
+  let g:loaded_sensible = 'yes'
 endif
 
 if has('autocmd')
@@ -25,8 +25,10 @@ set smarttab
 
 set nrformats-=octal
 
-set ttimeout
-set ttimeoutlen=100
+if !has('nvim') && &ttimeoutlen == -1
+  set ttimeout
+  set ttimeoutlen=100
+endif
 
 set incsearch
 " Use <C-L> to clear the highlighting of :set hlsearch.
@@ -36,7 +38,6 @@ endif
 
 set laststatus=2
 set ruler
-set showcmd
 set wildmenu
 
 if !&scrolloff
@@ -63,12 +64,11 @@ if has('path_extra')
   setglobal tags-=./tags tags-=./tags; tags^=./tags;
 endif
 
-if &shell =~# 'fish$'
-  set shell=/bin/bash
+if &shell =~# 'fish$' && (v:version < 704 || v:version == 704 && !has('patch276'))
+  set shell=/usr/bin/env\ bash
 endif
 
 set autoread
-set fileformats+=mac
 
 if &history < 1000
   set history=1000
