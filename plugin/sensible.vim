@@ -93,4 +93,7 @@ endif
 
 inoremap <C-U> <C-G>u<C-U>
 
+nmap <up> gk
+nmap <down> gj
+
 " vim:set ft=vim et sw=2:
